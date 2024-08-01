@@ -1,50 +1,59 @@
-﻿using System.Collections.ObjectModel;
-using System.Drawing;
-
-namespace Garage
+﻿namespace Garage
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main (string[] args)
         {
-            Zero fxs = new Zero()
-            {
-                MainColor = "Red",
-                MaximumOccupancy = 2,
-            };
-            Tesla modelS = new Tesla()
-            {
-                MainColor = "Blue",
-                MaximumOccupancy = 4,
-            };
-            Cessna mx410 = new Cessna()
-            {
-                MainColor = "White",
-                MaximumOccupancy = 1,
-            };
-            Ram kt456 = new Ram()
-            {
-                MainColor = "Black",
-                MaximumOccupancy = 4,
+            Zero fxs = new();
+            Zero fx = new();
+            Tesla modelS = new();
+
+            List<IElectricVehicle> electricVehicles = new List<IElectricVehicle>() {
+                fx, fxs, modelS
             };
 
-            fxs.Drive();
-            fxs.Turn();
-            fxs.Stop();
+            Console.WriteLine("Electric Vehicles");
+            foreach(IElectricVehicle ev in electricVehicles)
+            {
+                Console.WriteLine($"{ev.CurrentChargePercentage}");
+            }
 
-            modelS.Drive();
-            modelS.Turn();
-            modelS.Stop();
+            foreach(IElectricVehicle ev in electricVehicles)
+            {
+                // This should charge the vehicle to 100%
+                ev.ChargeBattery();
+            }
 
-            mx410.Drive();
-            mx410.Turn();
-            mx410.Stop();
-            
-            kt456.Stop();
-            kt456.Drive();
-            kt456.Turn();
+            foreach(IElectricVehicle ev in electricVehicles)
+            {
+                Console.WriteLine($"{ev.CurrentChargePercentage}");
+            }
 
+            /***********************************************/
 
+            Ram ram = new Ram ();
+            Cessna cessna150 = new Cessna ();
+
+            List<IGasVehicle> gasVehicles = new List<IGasVehicle>() {
+                ram, cessna150
+            };
+
+            Console.WriteLine("Gas Vehicles");
+            foreach(IGasVehicle gv in gasVehicles)
+            {
+                Console.WriteLine($"{gv.CurrentTankPercentage}");
+            }
+
+            foreach(IGasVehicle gv in gasVehicles)
+            {
+                // This should completely refuel the gas tank
+                gv.RefuelTank();
+            }
+
+            foreach(IGasVehicle gv in gasVehicles)
+            {
+                Console.WriteLine($"{gv.CurrentTankPercentage}");
+            }
         }
     }
 }
